@@ -9,6 +9,7 @@ import MarkdownPreview from 'component/common/markdown-preview';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import SimpleMDE from 'react-simplemde-editor';
+import TextareaWithSuggestions from 'component/textareaWithSuggestions';
 import type { ElementRef, Node } from 'react';
 
 type Props = {
@@ -38,6 +39,7 @@ type Props = {
   stretch?: boolean,
   textAreaMaxLength?: number,
   type?: string,
+  uri?: string,
   value?: string | number,
   onChange?: (any) => any,
   quickActionHandler?: (any) => any,
@@ -85,6 +87,7 @@ export class FormField extends React.PureComponent<Props, State> {
       stretch,
       textAreaMaxLength,
       type,
+      uri,
       quickActionHandler,
       render,
       ...inputProps
@@ -249,11 +252,13 @@ export class FormField extends React.PureComponent<Props, State> {
                 </div>
               )}
 
-              <textarea
+              <TextareaWithSuggestions
                 type={type}
                 id={name}
                 maxLength={textAreaMaxLength || FF_MAX_CHARS_DEFAULT}
-                ref={this.input}
+                inputRef={this.input}
+                hideSuggestions={hideSuggestions}
+                uri={uri}
                 {...inputProps}
               />
 
