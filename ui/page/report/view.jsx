@@ -62,16 +62,17 @@ class ReportPage extends React.Component {
                   name="message"
                   stretch
                   value={this.state.message}
-                  onChange={event => {
+                  onChange={(event) => {
                     this.onMessageChange(event);
                   }}
                   placeholder={__('Description of your issue or feature request')}
+                  noEmojis
                 />
 
                 <div className="section__actions">
                   <Button
                     button="primary"
-                    onClick={event => {
+                    onClick={(event) => {
                       this.submitMessage(event);
                     }}
                     className={`button-block button-primary ${this.state.submitting ? 'disabled' : ''}`}
