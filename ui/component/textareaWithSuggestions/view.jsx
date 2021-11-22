@@ -1,5 +1,6 @@
 // @flow
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList } from '@reach/combobox';
+import { EMOTES_48px as EMOTES } from 'constants/emotes';
 import { matchSorter } from 'match-sorter';
 import { SEARCH_OPTIONS } from 'constants/search';
 import * as KEYCODES from 'constants/keycodes';
@@ -13,6 +14,8 @@ import useLighthouse from 'effects/use-lighthouse';
 import useThrottle from 'effects/use-throttle';
 
 const mentionRegex = /@[^\s"=?!@$%^&*;,{}<>/\\]*/gm;
+// const RE_EMOTE = /:\+1:|:-1:|:[\w-]+:/;
+const EMOTE_TYPING = /:[^\s"=?!@$%^&*;,{}<>/\\]*/gm;
 
 const INPUT_DEBOUNCE_MS = 1000;
 const LIGHTHOUSE_MIN_CHARACTERS = 4;
@@ -84,6 +87,10 @@ export default function TextareaWithSuggestions(props: Props) {
   const creatorUriMatch = useSuggestionMatch(suggestionTerm || '', [canonicalCreatorUri]);
   const subscriptionsMatch = useSuggestionMatch(suggestionTerm || '', filteredSubs);
   const commentorsMatch = useSuggestionMatch(suggestionTerm || '', filteredCommentors);
+  const emotesMatch = useSuggestionMatch(
+    (suggestionValue && suggestionValue.isEmote && suggestionTerm) || '',
+    EMOTES.map(({ name }) => name)
+  );
 
   const hasMinSearchLength = suggestionTerm && suggestionTerm.length >= LIGHTHOUSE_MIN_CHARACTERS;
   const isTyping = suggestionValue && debouncedTerm !== suggestionValue.term;
@@ -101,33 +108,53 @@ export default function TextareaWithSuggestions(props: Props) {
     const { value } = e.target;
 
     const cursorIndex = inputRef && inputRef.current && inputRef.current.selectionStart;
+
     const mentionMatches = value.match(mentionRegex);
+    const emoteMatches = value.match(EMOTE_TYPING);
+    const suggestionMatches =
+      mentionMatches && emoteMatches ? [...mentionMatches, ...emoteMatches] : mentionMatches || emoteMatches;
 
     const matchIndexes = [];
-    let mentionIndex;
-    let mentionLastIndex;
+    let suggestionIndex;
+    let suggestionLastIndex;
 
-    const mentionValue =
-      mentionMatches &&
-      mentionMatches.find((match, index) => {
+    const suggestionFound =
+      suggestionMatches &&
+      suggestionMatches.find((match, index) => {
         const previousIndex = matchIndexes[index - 1] + 1 || 0;
-        mentionIndex = value.substring(previousIndex).search(mentionRegex) + previousIndex;
-        matchIndexes.push(mentionIndex);
+        const findNext = value.substring(previousIndex);
 
-        // the current mention term will be the one on the text cursor's range,
+        const currentMentionSearch = findNext.search(mentionRegex);
+        const currentEmoteSearch = findNext.search(EMOTE_TYPING);
+        const currentSearch =
+          currentMentionSearch >= 0 && currentEmoteSearch >= 0
+            ? currentMentionSearch < currentEmoteSearch
+              ? mentionRegex
+              : EMOTE_TYPING
+            : (currentMentionSearch >= 0 && mentionRegex) || (currentEmoteSearch >= 0 && EMOTE_TYPING);
+
+        suggestionIndex = currentSearch ? findNext.search(currentSearch) + previousIndex : 0;
+        matchIndexes.push(suggestionIndex);
+
+        // the current suggestion term will be the one on the text cursor's range,
         // in case of there being more in the same comment message
         if (matchIndexes) {
-          mentionLastIndex = mentionIndex + match.length;
+          suggestionLastIndex = suggestionIndex + match.length;
 
-          if (cursorIndex >= mentionIndex && cursorIndex <= mentionLastIndex) {
+          if (cursorIndex >= suggestionIndex && cursorIndex <= suggestionLastIndex) {
             return match;
           }
         }
       });
 
-    if (mentionValue) {
+    if (suggestionFound) {
       // $FlowFixMe
-      setSuggestionValue({ term: mentionValue, index: mentionIndex, lastIndex: mentionLastIndex });
+      setSuggestionValue({
+        term: suggestionFound,
+        index: suggestionIndex,
+        lastIndex: suggestionLastIndex,
+        isEmote: !!emoteMatches,
+      });
     } else if (suggestionValue) {
       setSuggestionValue(undefined);
     }
@@ -156,7 +183,9 @@ export default function TextareaWithSuggestions(props: Props) {
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      if (isTyping && suggestionValue) setDebouncedTerm(!hasMinSearchLength ? '' : suggestionValue.term);
+      if (isTyping && suggestionValue && !suggestionValue.isEmote) {
+        setDebouncedTerm(!hasMinSearchLength ? '' : suggestionValue.term);
+      }
     }, INPUT_DEBOUNCE_MS);
 
     return () => clearTimeout(timer);
@@ -222,9 +251,12 @@ export default function TextareaWithSuggestions(props: Props) {
     <div className="textareaSuggestions__row">
       <div className="textareaSuggestions__label">{label}</div>
 
-      {suggestions.map((suggestion) => (
-        <TextareaSuggestionsItem key={suggestion} uri={suggestion} />
-      ))}
+      {suggestions.map((suggestion) => {
+        const emoteFound = suggestionValue && suggestionValue.isEmote && EMOTES.find(({ name }) => name === suggestion);
+        const uri = suggestionValue && !suggestionValue.isEmote && suggestion;
+
+        return <TextareaSuggestionsItem key={suggestion} emote={emoteFound} uri={uri} />;
+      })}
 
       <hr className="textareaSuggestions__topSeparator" />
     </div>
@@ -247,33 +279,46 @@ export default function TextareaWithSuggestions(props: Props) {
       />
 
       {/* Possible Suggestions Box */}
-      {suggestionValue && isUriFromTermValid && (
-        <ComboboxPopover persistSelection className="textarea__suggestions">
-          <ComboboxList ref={comboboxListRef}>
-            {creatorUriMatch && creatorUriMatch.length > 0 && suggestionsRow(__('Creator'), creatorUriMatch)}
-            {subscriptionsMatch && subscriptionsMatch.length > 0 && suggestionsRow(__('Following'), subscriptionsMatch)}
-            {commentorsMatch && commentorsMatch.length > 0 && suggestionsRow(__('From comments'), commentorsMatch)}
+      {suggestionValue &&
+        (suggestionValue.isEmote ? (
+          <ComboboxPopover persistSelection className="textarea__suggestions">
+            <ComboboxList ref={comboboxListRef}>
+              {emotesMatch && emotesMatch.length > 0 && suggestionsRow(__('Emotes'), emotesMatch)}
+            </ComboboxList>
+          </ComboboxPopover>
+        ) : (
+          isUriFromTermValid && (
+            <ComboboxPopover persistSelection className="textarea__suggestions">
+              <ComboboxList ref={comboboxListRef}>
+                {creatorUriMatch && creatorUriMatch.length > 0 && suggestionsRow(__('Creator'), creatorUriMatch)}
+                {subscriptionsMatch &&
+                  subscriptionsMatch.length > 0 &&
+                  suggestionsRow(__('Following'), subscriptionsMatch)}
+                {commentorsMatch && commentorsMatch.length > 0 && suggestionsRow(__('From comments'), commentorsMatch)}
 
-            {hasMinSearchLength &&
-              (showPlaceholder ? (
-                <Spinner type="small" />
-              ) : (
-                results && (
-                  <>
-                    {!noTopSuggestion && (
-                      <TextareaTopSuggestion
-                        query={debouncedTerm}
-                        filteredTop={filteredTop}
-                        setTopSuggestion={setTopSuggestion}
-                      />
-                    )}
-                    {filteredSearch && filteredSearch.length > 0 && suggestionsRow(__('From search'), filteredSearch)}
-                  </>
-                )
-              ))}
-          </ComboboxList>
-        </ComboboxPopover>
-      )}
+                {hasMinSearchLength &&
+                  (showPlaceholder ? (
+                    <Spinner type="small" />
+                  ) : (
+                    results && (
+                      <>
+                        {!noTopSuggestion && (
+                          <TextareaTopSuggestion
+                            query={debouncedTerm}
+                            filteredTop={filteredTop}
+                            setTopSuggestion={setTopSuggestion}
+                          />
+                        )}
+                        {filteredSearch &&
+                          filteredSearch.length > 0 &&
+                          suggestionsRow(__('From search'), filteredSearch)}
+                      </>
+                    )
+                  ))}
+              </ComboboxList>
+            </ComboboxPopover>
+          )
+        ))}
     </Combobox>
   );
 }
