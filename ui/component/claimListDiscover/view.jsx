@@ -94,6 +94,11 @@ type Props = {
   doClaimSearch: ({}) => void,
   doToggleTagFollowDesktop: (string) => void,
   doFetchViewCount: (claimIdCsv: string) => void,
+
+  hideLayoutButton?: boolean,
+  loadedCallback?: (number) => void,
+  maxClaimRender?: number,
+  useSkeletonScreen?: boolean,
 };
 
 function ClaimListDiscover(props: Props) {
@@ -157,6 +162,10 @@ function ClaimListDiscover(props: Props) {
     empty,
     claimsByUri,
     doFetchViewCount,
+    hideLayoutButton = false,
+    loadedCallback,
+    maxClaimRender,
+    useSkeletonScreen = true,
   } = props;
   const didNavigateForward = history.action === 'PUSH';
   const { search } = location;
@@ -467,6 +476,8 @@ function ClaimListDiscover(props: Props) {
 
   const renderUris = uris || claimSearchResult;
 
+  if (typeof loadedCallback === 'function') loadedCallback(renderUris?.length || 0);
+
   // **************************************************************************
   // Helpers
   // **************************************************************************
@@ -513,12 +524,21 @@ function ClaimListDiscover(props: Props) {
   }
 
   function resolveOrderByOption(orderBy: string | Array<string>, sortBy: string | Array<string>) {
-    const order_by =
-      orderBy === CS.ORDER_BY_TRENDING
-        ? CS.ORDER_BY_TRENDING_VALUE
-        : orderBy === CS.ORDER_BY_NEW
-        ? CS.ORDER_BY_NEW_VALUE
-        : CS.ORDER_BY_TOP_VALUE;
+    let order_by;
+
+    switch (orderBy) {
+      case CS.ORDER_BY_TRENDING:
+        order_by = CS.ORDER_BY_TRENDING_VALUE;
+        break;
+      case CS.ORDER_BY_NEW:
+        order_by = CS.ORDER_BY_NEW_VALUE;
+        break;
+      case CS.ORDER_BY_NEW_ASC:
+        order_by = CS.ORDER_BY_NEW_ASC_VALUE;
+        break;
+      default:
+        order_by = CS.ORDER_BY_TOP_VALUE;
+    }
 
     if (orderBy === CS.ORDER_BY_NEW && sortBy === CS.SORT_BY.OLDEST.key) {
       return order_by.map((x) => `${CS.SORT_BY.OLDEST.opt}${x}`);
@@ -557,6 +577,7 @@ function ClaimListDiscover(props: Props) {
       hiddenNsfwMessage={hiddenNsfwMessage}
       setPage={setPage}
       tileLayout={tileLayout}
+      hideLayoutButton={hideLayoutButton}
       hideFilters={hideFilters}
       scrollAnchor={scrollAnchor}
     />
@@ -589,8 +610,9 @@ function ClaimListDiscover(props: Props) {
             searchOptions={options}
             showNoSourceClaims={showNoSourceClaims}
             empty={empty}
+            maxClaimRender={maxClaimRender}
           />
-          {loading && (
+          {loading && useSkeletonScreen && (
             <div className="claim-grid">
               {new Array(dynamicPageSize).fill(1).map((x, i) => (
                 <ClaimPreviewTile key={i} placeholder="loading" />
@@ -622,8 +644,10 @@ function ClaimListDiscover(props: Props) {
             searchOptions={options}
             showNoSourceClaims={hasNoSource || showNoSourceClaims}
             empty={empty}
+            maxClaimRender={maxClaimRender}
           />
           {loading &&
+            useSkeletonScreen &&
             new Array(dynamicPageSize)
               .fill(1)
               .map((x, i) => (
