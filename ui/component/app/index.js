@@ -1,26 +1,19 @@
-import { hot } from 'react-hot-loader/root';
 import { connect } from 'react-redux';
-import { selectGetSyncErrorMessage, selectSyncFatalError } from 'redux/selectors/sync';
 import { doFetchAccessToken, doUserSetReferrer } from 'redux/actions/user';
-import { selectUser, selectAccessToken, selectUserVerifiedEmail } from 'redux/selectors/user';
-import { selectUnclaimedRewards } from 'redux/selectors/rewards';
 import { doFetchChannelListMine, doFetchCollectionListMine, doResolveUris } from 'redux/actions/claims';
-import { selectMyChannelUrls } from 'redux/selectors/claims';
-import * as SETTINGS from 'constants/settings';
-import { selectSubscriptions } from 'redux/selectors/subscriptions';
-import { selectClientSetting, selectLanguage, selectLoadedLanguages, selectThemePath } from 'redux/selectors/settings';
-import {
-  selectIsUpgradeAvailable,
-  selectAutoUpdateDownloaded,
-  selectModal,
-  selectActiveChannelClaim,
-  selectIsReloadRequired,
-} from 'redux/selectors/app';
-import { selectUploadCount } from 'redux/selectors/publish';
-import { doSetLanguage } from 'redux/actions/settings';
-import { doSyncLoop } from 'redux/actions/sync';
-import { doDownloadUpgradeRequested, doSignIn, doSetActiveChannel, doSetIncognito } from 'redux/actions/app';
 import { doFetchModBlockedList, doFetchCommentModAmIList } from 'redux/actions/comments';
+import { doSetLanguage } from 'redux/actions/settings';
+import { doSignIn, doSetActiveChannel, doSetIncognito } from 'redux/actions/app';
+import { doSyncLoop } from 'redux/actions/sync';
+import { hot } from 'react-hot-loader/root';
+import { selectLanguage, selectLoadedLanguages, selectThemePath } from 'redux/selectors/settings';
+import { selectGetSyncErrorMessage, selectSyncFatalError } from 'redux/selectors/sync';
+import { selectModal, selectActiveChannelClaim, selectIsReloadRequired } from 'redux/selectors/app';
+import { selectMyChannelUrls } from 'redux/selectors/claims';
+import { selectSubscriptions } from 'redux/selectors/subscriptions';
+import { selectUnclaimedRewards } from 'redux/selectors/rewards';
+import { selectUploadCount } from 'redux/selectors/publish';
+import { selectUser, selectAccessToken, selectUserVerifiedEmail } from 'redux/selectors/user';
 import App from './view';
 
 const select = (state) => ({
@@ -28,10 +21,7 @@ const select = (state) => ({
   accessToken: selectAccessToken(state),
   theme: selectThemePath(state),
   language: selectLanguage(state),
-  syncEnabled: selectClientSetting(state, SETTINGS.ENABLE_SYNC),
   languages: selectLoadedLanguages(state),
-  autoUpdateDownloaded: selectAutoUpdateDownloaded(state),
-  isUpgradeAvailable: selectIsUpgradeAvailable(state),
   isReloadRequired: selectIsReloadRequired(state),
   syncError: selectGetSyncErrorMessage(state),
   uploadCount: selectUploadCount(state),
@@ -50,7 +40,6 @@ const perform = (dispatch) => ({
   fetchCollectionListMine: () => dispatch(doFetchCollectionListMine()),
   setLanguage: (language) => dispatch(doSetLanguage(language)),
   signIn: () => dispatch(doSignIn()),
-  requestDownloadUpgrade: () => dispatch(doDownloadUpgradeRequested()),
   syncLoop: (noInterval) => dispatch(doSyncLoop(noInterval)),
   setReferrer: (referrer, doClaim) => dispatch(doUserSetReferrer(referrer, doClaim)),
   setActiveChannelIfNotSet: () => dispatch(doSetActiveChannel()),

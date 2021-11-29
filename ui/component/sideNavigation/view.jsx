@@ -221,7 +221,7 @@ function SideNavigation(props: Props) {
   const [expandSubscriptions, setExpandSubscriptions] = React.useState(false);
   const [expandTags, setExpandTags] = React.useState(false);
 
-  const isPersonalized = !IS_WEB || isAuthenticated;
+  const isPersonalized = isAuthenticated;
   const isAbsolute = isOnFilePage || isMediumScreen;
   const microNavigation = !sidebarOpen || isMediumScreen;
   const subLinks = email
@@ -388,7 +388,7 @@ function SideNavigation(props: Props) {
               {SIDE_LINKS.map((linkProps) => {
                 //   $FlowFixMe
                 const { hideForUnauth, ...passedProps } = linkProps;
-                return !email && linkProps.hideForUnauth && IS_WEB ? null : (
+                return !email && linkProps.hideForUnauth ? null : (
                   <li key={linkProps.route || linkProps.link}>
                     <Button
                       {...passedProps}
@@ -439,7 +439,7 @@ function SideNavigation(props: Props) {
                 {SIDE_LINKS.map((linkProps) => {
                   //   $FlowFixMe
                   const { hideForUnauth, link, route, ...passedProps } = linkProps;
-                  return !email && linkProps.hideForUnauth && IS_WEB ? null : (
+                  return !email && linkProps.hideForUnauth ? null : (
                     <li key={route || link}>
                       <Button
                         {...passedProps}
@@ -462,7 +462,7 @@ function SideNavigation(props: Props) {
                 {subLinks.map((linkProps) => {
                   const { hideForUnauth, ...passedProps } = linkProps;
 
-                  return !email && hideForUnauth && IS_WEB ? null : (
+                  return !email && hideForUnauth ? null : (
                     <li key={linkProps.title} className="mobile-only">
                       <Button
                         {...passedProps}

@@ -99,7 +99,7 @@ export default React.memo<Props>(function RecommendedContent(props: Props) {
               loading={isSearching}
               uris={recommendedContentUris}
               hideMenu={isMobile}
-              injectedItem={SHOW_ADS && IS_WEB && !isAuthenticated && <Ads small type={'video'} />}
+              injectedItem={SHOW_ADS && !isAuthenticated && <Ads small type={'video'} />}
               empty={__('No related content found')}
               onClick={handleRecommendationClicked}
             />
@@ -118,7 +118,7 @@ export default React.memo<Props>(function RecommendedContent(props: Props) {
               channelIds={[signingChannel.claim_id]}
               loading={isSearching}
               hideMenu={isMobile}
-              injectedItem={SHOW_ADS && IS_WEB && !isAuthenticated && <Ads small type={'video'} />}
+              injectedItem={SHOW_ADS && !isAuthenticated && <Ads small type={'video'} />}
               empty={__('No related content found')}
             />
           )}

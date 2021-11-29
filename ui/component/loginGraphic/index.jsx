@@ -14,10 +14,9 @@ function LoginGraphic(props: any) {
       const newWidth = containerRef.current.parentElement.offsetWidth;
 
       let newSrc = imgUrl && imgUrl.trim().replace(/^http:\/\//i, 'https://');
-      // @if TARGET='web'
+
       // Pass image urls through a compression proxy.
       newSrc = getThumbnailCdnUrl({ thumbnail: newSrc, width: newWidth, height: newWidth * 2 });
-      // @endif
 
       setSrc(newSrc);
     } else {
