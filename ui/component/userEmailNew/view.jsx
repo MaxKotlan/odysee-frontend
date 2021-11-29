@@ -1,96 +1,89 @@
 // @flow
-import * as PAGES from 'constants/pages';
-import { DOMAIN, SIMPLE_SITE } from 'config';
-import React, { useState } from 'react';
+import { SIMPLE_SITE } from 'config';
 import { FormField, Form } from 'component/common/form';
-import Button from 'component/button';
-import analytics from 'analytics';
-import { EMAIL_REGEX } from 'constants/email';
-import I18nMessage from 'component/i18nMessage';
 import { useHistory } from 'react-router-dom';
+import * as PAGES from 'constants/pages';
+import * as REGEX from 'constants/regex';
+import analytics from 'analytics';
+import Button from 'component/button';
 import Card from 'component/common/card';
-import ErrorText from 'component/common/error-text';
-import Nag from 'component/common/nag';
 import classnames from 'classnames';
+import ErrorText from 'component/common/error-text';
+import I18nMessage from 'component/i18nMessage';
 import LoginGraphic from 'component/loginGraphic';
+import Nag from 'component/common/nag';
+import React, { useState } from 'react';
 
 type Props = {
-  errorMessage: ?string,
+  balance: number,
   emailExists: boolean,
+  errorMessage: ?string,
+  interestedInYoutubSync: boolean,
   isPending: boolean,
   syncEnabled: boolean,
-  setSync: (boolean) => void,
-  balance: number,
-  daemonSettings: { share_usage_data: boolean },
-  setShareDiagnosticData: (boolean) => void,
-  doSignUp: (string, ?string) => Promise<any>,
   clearEmailEntry: () => void,
-  interestedInYoutubSync: boolean,
+  doSignUp: (string, ?string) => Promise<any>,
   doToggleInterestedInYoutubeSync: () => void,
 };
 
 function UserEmailNew(props: Props) {
   const {
-    errorMessage,
-    isPending,
-    doSignUp,
-    setSync,
-    daemonSettings,
-    setShareDiagnosticData,
-    clearEmailEntry,
     emailExists,
+    errorMessage,
     interestedInYoutubSync,
+    isPending,
+    clearEmailEntry,
+    doSignUp,
     doToggleInterestedInYoutubeSync,
   } = props;
-  const { share_usage_data: shareUsageData } = daemonSettings;
-  const { push, location } = useHistory();
-  const urlParams = new URLSearchParams(location.search);
+
+  const {
+    push,
+    location: { search },
+  } = useHistory();
+
+  const urlParams = new URLSearchParams(search);
   const emailFromUrl = urlParams.get('email');
   const defaultEmail = emailFromUrl ? decodeURIComponent(emailFromUrl) : '';
+
   const [email, setEmail] = useState(defaultEmail);
   const [password, setPassword] = useState('');
-  const [localShareUsageData, setLocalShareUsageData] = React.useState(false);
-  const [formSyncEnabled, setFormSyncEnabled] = useState(true);
-  const valid = email.match(EMAIL_REGEX);
 
-  function handleUsageDataChange() {
-    setLocalShareUsageData(!localShareUsageData);
-  }
+  const valid = email.match(REGEX.EMAIL);
 
   function handleSubmit() {
-    // @if TARGET='app'
-    setSync(formSyncEnabled);
-    setShareDiagnosticData(true);
-    // @endif
     doSignUp(email, password === '' ? undefined : password).then(() => {
       analytics.emailProvidedEvent();
     });
   }
 
-  function handleChangeToSignIn(additionalParams) {
-    clearEmailEntry();
+  const handleChangeToSignIn = React.useCallback(
+    (additionalParams) => {
+      clearEmailEntry();
 
-    let url = `/$/${PAGES.AUTH_SIGNIN}`;
-    const urlParams = new URLSearchParams(location.search);
+      let url = `/$/${PAGES.AUTH_SIGNIN}`;
+      const urlParams = new URLSearchParams(search);
 
-    urlParams.delete('email');
-    if (email) {
-      urlParams.set('email', encodeURIComponent(email));
-    }
+      urlParams.delete('email');
+      if (email) {
+        urlParams.set('email', encodeURIComponent(email));
+      }
 
-    urlParams.delete('email_exists');
-    if (emailExists) {
-      urlParams.set('email_exists', '1');
-    }
+      urlParams.delete('email_exists');
+      if (emailExists) {
+        urlParams.set('email_exists', '1');
+      }
 
-    push(`${url}?${urlParams.toString()}`);
-  }
+      push(`${url}?${urlParams.toString()}`);
+    },
+    [clearEmailEntry, email, emailExists, search, push]
+  );
 
   React.useEffect(() => {
     if (emailExists) {
       handleChangeToSignIn();
     }
-  }, [emailExists]);
+  }, [emailExists, handleChangeToSignIn]);
 
   return (
     <div
@@ -100,11 +93,8 @@ function UserEmailNew(props: Props) {
     >
       <Card
         title={__('Join')}
-        // @if TARGET='app'
-        subtitle={__('An account allows you to earn rewards and backup your data.')}
-        // @endif
         actions={
-          <div className={classnames({ 'card--disabled': DOMAIN === 'lbry.tv' && IS_WEB })}>
+          <div>
             <Form onSubmit={handleSubmit} className="section">
               <FormField
                 autoFocus
@@ -123,7 +113,6 @@ function UserEmailNew(props: Props) {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              {/* @if TARGET='web' */}
               <FormField
                 type="checkbox"
                 name="youtube_sync_checkbox"
@@ -131,46 +120,13 @@ function UserEmailNew(props: Props) {
                 checked={interestedInYoutubSync}
                 onChange={() => doToggleInterestedInYoutubeSync()}
               />
-              {/* @endif */}
 
-              {/* @if TARGET='app' */}
-              <FormField
-                type="checkbox"
-                name="sync_checkbox"
-                label={
-                  <React.Fragment>
-                    {__('Backup your account and wallet data.')}{' '}
-                    <Button button="link" href="https://lbry.com/faq/account-sync" label={__('Learn More')} />
-                  </React.Fragment>
-                }
-                checked={formSyncEnabled}
-                onChange={() => setFormSyncEnabled(!formSyncEnabled)}
-              />
-              {/* @endif */}
-
-              {!shareUsageData && !IS_WEB && (
-                <FormField
-                  type="checkbox"
-                  name="share_data_checkbox"
-                  checked={localShareUsageData}
-                  onChange={handleUsageDataChange}
-                  label={
-                    <React.Fragment>
-                      {__('Share usage data with LBRY inc.')}{' '}
-                      <Button button="link" href="https://odysee.com/$/privacypolicy" label={__('Learn More')} />
-                      {!localShareUsageData && <span className="error__text"> ({__('Required')})</span>}
-                    </React.Fragment>
-                  }
-                />
-              )}
               <div className="section__actions">
                 <Button
                   button="primary"
                   type="submit"
                   label={__('Sign Up')}
-                  disabled={
-                    !email || !password || !valid || (!IS_WEB && !localShareUsageData && !shareUsageData) || isPending
-                  }
+                  disabled={!email || !password || !valid || isPending}
                 />
                 <Button button="link" onClick={handleChangeToSignIn} label={__('Log In')} />
               </div>
