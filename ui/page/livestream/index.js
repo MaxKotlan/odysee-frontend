@@ -6,6 +6,7 @@ import { doUserSetReferrer } from 'redux/actions/user';
 import { selectUserVerifiedEmail } from 'redux/selectors/user';
 import { selectHasUnclaimedRefereeReward } from 'redux/selectors/rewards';
 import { DISABLE_COMMENTS_TAG } from 'constants/tags';
+import { doCommentSocketConnect, doCommentSocketDisconnect } from 'redux/actions/websocket';
 import LivestreamPage from './view';
 
 const select = (state, props) => ({
@@ -19,4 +20,6 @@ export default connect(select, {
   doSetPlayingUri,
   doResolveUri,
   doUserSetReferrer,
+  doCommentSocketConnect,
+  doCommentSocketDisconnect,
 })(LivestreamPage);
