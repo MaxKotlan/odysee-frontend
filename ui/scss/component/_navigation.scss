@@ -29,6 +29,8 @@
   padding-bottom: var(--spacing-l);
   display: flex;
   flex-direction: column;
+  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: width 250ms;
 
   @media (min-width: $breakpoint-small) {
     overflow-y: hidden;
@@ -186,6 +188,7 @@
   flex-direction: column;
   align-items: flex-start;
   list-style: none;
+  transition: padding 400ms;
 }
 
 .navigation-links--micro {
