@@ -133,8 +133,8 @@ function Page(props: Props) {
             'main--markdown': isMarkdown,
             'main--theater-mode': isOnFilePage && videoTheaterMode && !livestream,
             'main--livestream': livestream && !chatDisabled,
-            'main--test': sidebarOpen,
-            'main--test-2': !sidebarOpen,
+            'main--test': sidebarOpen && !filePage,
+            'main--test-2': !sidebarOpen && !filePage,
           })}
         >
           <div className="page--container">

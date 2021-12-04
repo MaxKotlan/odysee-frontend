@@ -43,12 +43,12 @@
 }
 
 .main {
-  position: relative;
+  // position: relative;
   //width: calc(100% - var(--side-nav-width) - 2*var(--spacing-l));
   //max-width: var(--page-max-width);
   z-index: 0;
-  margin-right: auto;
-  margin-left: auto;
+  // margin-right: auto;
+  // margin-left: auto;
 
   animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 250ms;
@@ -211,11 +211,17 @@
 
 .main--test-2 {
   position: absolute;
-  margin-left: calc(var(--side-nav-width--micro) + var(--spacing-l));
-  margin-right: var(--spacing-l);
-  width: calc(100% - (var(--side-nav-width--micro) + 2 * var(--spacing-l)));
-  //display: flex;
-  @media (min-width: $breakpoint-large) {
+
+  @media (max-width: $breakpoint-small) {
+    width: calc(100%- (2 * var(--spacing-l)+ var(--spacing-xs)));
+    margin-left: 0;
+    margin-right: var(--spacing-xs);
+  }
+
+  @media (min-width: $breakpoint-small) {
+    margin-left: calc(var(--side-nav-width--micro) + var(--spacing-l));
+    margin-right: var(--spacing-l);
+    width: calc(100% - (var(--side-nav-width--micro) + 2 * var(--spacing-l)));
   }
 }
 
@@ -230,11 +236,17 @@
 
 .main--test {
   position: absolute;
-  margin-left: calc(var(--side-nav-width) + var(--spacing-l));
-  margin-right: var(--spacing-l);
-  width: calc(100% - (var(--side-nav-width) + 2 * var(--spacing-l)));
-  //display: flex;
-  @media (min-width: $breakpoint-large) {
+
+  @media (max-width: $breakpoint-small) {
+    width: calc(100%- (2 * var(--spacing-l)+ var(--spacing-xs)));
+    margin-left: 0;
+    margin-right: var(--spacing-xs);
+  }
+
+  @media (min-width: $breakpoint-small) {
+    margin-left: calc(var(--side-nav-width) + var(--spacing-l));
+    margin-right: var(--spacing-l);
+    width: calc(100% - (var(--side-nav-width) + 2 * var(--spacing-l)));
   }
 }
 
