@@ -31,6 +31,8 @@
   flex-direction: column;
   animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: width 250ms;
+  z-index: 3;
+  background-color: var(--color-card-background);
 
   @media (min-width: $breakpoint-small) {
     overflow-y: hidden;
