@@ -133,6 +133,8 @@ function Page(props: Props) {
             'main--markdown': isMarkdown,
             'main--theater-mode': isOnFilePage && videoTheaterMode && !livestream,
             'main--livestream': livestream && !chatDisabled,
+            'main--test': sidebarOpen,
+            'main--test-2': !sidebarOpen,
           })}
         >
           {children}

@@ -50,6 +50,9 @@
   margin-right: auto;
   margin-left: auto;
 
+  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: margin 250ms;
+
   @media (max-width: $breakpoint-medium) and (min-width: $breakpoint-small) {
     margin: 0 var(--spacing-l);
   }
@@ -204,6 +207,16 @@
       flex-direction: column;
     }
   }
+}
+
+.main--test-2 {
+  position: absolute;
+  margin-left: calc(var(--side-nav-width--micro) + var(--spacing-s));
+}
+
+.main--test {
+  position: absolute;
+  margin-left: calc(var(--side-nav-width) + var(--spacing-s));
 }
 
 .main--livestream {
