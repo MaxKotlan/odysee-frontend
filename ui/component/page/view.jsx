@@ -137,9 +137,11 @@ function Page(props: Props) {
             'main--test-2': !sidebarOpen,
           })}
         >
-          {children}
+          <div className="page--container">
+            {children}
 
-          {!isMobile && rightSide && <div className="main__right-side">{rightSide}</div>}
+            {!isMobile && rightSide && <div className="main__right-side">{rightSide}</div>}
+          </div>
         </main>
         {/* @if TARGET='app' */}
         <StatusBar />
