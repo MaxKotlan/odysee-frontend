@@ -218,6 +218,22 @@
   }
 }
 
+.abcedhuiaghiahfjkshfgak {
+  display: flex;
+
+  //   // @media (max-width: $breakpoint-large) {
+  //   //   flex-direction: row;
+  //   // }
+
+  //   :first-child {
+  //     width: 100%;
+  //   }
+
+  //   :second-child {
+  //     display: relative;
+  //   }
+}
+
 .main--sidebar-open {
   @media (min-width: $breakpoint-medium) {
     margin-left: calc(var(--side-nav-width) + var(--spacing-l));
