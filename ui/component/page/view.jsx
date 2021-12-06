@@ -136,7 +136,7 @@ function Page(props: Props) {
             'main--sidebar-open': sidebarOpen && !filePage,
           })}
         >
-          <div className="page--container">
+          <div className={classnames({ 'page--container': !fullWidthPage && !filePage })}>
             {children}
 
             {!isMobile && rightSide && <div className="main__right-side">{rightSide}</div>}
