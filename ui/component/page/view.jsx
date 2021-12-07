@@ -123,7 +123,7 @@ function Page(props: Props) {
       >
         {getSideNavElem()}
 
-        <div className={classnames('sidebar--pusher', { 'sidebar--pusher--open': sidebarOpen })}>
+        <div className={classnames('sidebar--pusher', { 'sidebar--pusher--open': sidebarOpen && !filePage })}>
           <main
             id={'main-content'}
             className={classnames(MAIN_CLASS, className, {
