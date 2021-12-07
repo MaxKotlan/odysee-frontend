@@ -42,17 +42,41 @@
   padding-top: 0;
 }
 
+.sidebar--pusher {
+  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 250ms;
+  position: absolute;
+
+  @media (max-width: $breakpoint-small) {
+    margin-left: 0;
+    width: calc(100% - var(--spacing-m));
+  }
+
+  @media (min-width: $breakpoint-small) {
+    margin-left: calc(var(--side-nav-width--micro) + var(--spacing-l));
+    margin-right: var(--spacing-l);
+    width: calc(100% - (var(--side-nav-width--micro)) - 2 * var(--spacing-l));
+  }
+}
+
+.sidebar--pusher--open {
+  @media (min-width: $breakpoint-medium) {
+    margin-left: calc(var(--side-nav-width) + var(--spacing-l));
+    width: calc(100% - (var(--side-nav-width)) - 2 * var(--spacing-l));
+  }
+}
+
 .main {
   position: relative;
-  width: calc(100% - var(--side-nav-width) - var(--spacing-l));
+  width: calc(100% - var(--spacing-l));
   max-width: var(--page-max-width);
   z-index: 0;
   margin-right: auto;
   margin-left: auto;
 
-  @media (max-width: $breakpoint-medium) and (min-width: $breakpoint-small) {
-    margin: 0 var(--spacing-l);
-  }
+  // @media (max-width: $breakpoint-medium) and (min-width: $breakpoint-small) {
+  //   margin: 0 var(--spacing-l);
+  // }
 
   @media (max-width: $breakpoint-medium) {
     width: 100%;
@@ -253,7 +277,6 @@
   @media (min-width: $breakpoint-large) {
     max-width: none;
     width: 100%;
-    margin: 0 var(--spacing-l);
   }
 }
 
