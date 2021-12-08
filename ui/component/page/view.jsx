@@ -123,22 +123,30 @@ function Page(props: Props) {
       >
         {getSideNavElem()}
 
-        <main
-          id={'main-content'}
-          className={classnames(MAIN_CLASS, className, {
-            'main--full-width': fullWidthPage,
-            'main--auth-page': authPage,
-            'main--file-page': filePage,
-            'main--settings-page': settingsPage,
-            'main--markdown': isMarkdown,
-            'main--theater-mode': isOnFilePage && videoTheaterMode && !livestream,
-            'main--livestream': livestream && !chatDisabled,
+        <div
+          className={classnames({
+            'sidebar--pusher': !filePage,
+            'sidebar--pusher--open': sidebarOpen && !filePage,
+            'sidebar--pusher--filepage': filePage,
           })}
         >
-          {children}
+          <main
+            id={'main-content'}
+            className={classnames(MAIN_CLASS, className, {
+              'main--full-width': fullWidthPage,
+              'main--auth-page': authPage,
+              'main--file-page': filePage,
+              'main--settings-page': settingsPage,
+              'main--markdown': isMarkdown,
+              'main--theater-mode': isOnFilePage && videoTheaterMode && !livestream,
+              'main--livestream': livestream && !chatDisabled,
+            })}
+          >
+            {children}
 
-          {!isMobile && rightSide && <div className="main__right-side">{rightSide}</div>}
-        </main>
+            {!isMobile && rightSide && <div className="main__right-side">{rightSide}</div>}
+          </main>
+        </div>
         {/* @if TARGET='app' */}
         <StatusBar />
         {/* @endif */}
