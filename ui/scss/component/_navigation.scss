@@ -75,26 +75,6 @@
   animation: slideInFromNone 250ms cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-@keyframes slideInFromNone {
-  0% {
-    display: none;
-    transform: translateX(calc(-1 * (var(--side-nav-width))));
-    opacity: 0;
-  }
-
-  1% {
-    display: block;
-    transform: translateX(calc(-1 * (var(--side-nav-width))));
-    opacity: 0.4;
-  }
-
-  100% {
-    display: block;
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
 .navigation--micro {
   @extend .navigation;
   width: var(--side-nav-width--micro);
@@ -294,23 +274,6 @@
 
   .button__content {
     align-items: flex-start;
-  }
-}
-
-@keyframes fadeInFromNone {
-  0% {
-    display: none;
-    opacity: 0;
-  }
-
-  1% {
-    display: block;
-    opacity: 0;
-  }
-
-  100% {
-    display: block;
-    opacity: 1;
   }
 }
 
