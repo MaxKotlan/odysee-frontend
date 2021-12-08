@@ -125,9 +125,9 @@ function Page(props: Props) {
 
         <div
           className={classnames({
-            'sidebar--pusher': fullWidthPage,
-            'sidebar--pusher--open': sidebarOpen && fullWidthPage,
-            'sidebar--pusher--filepage': !fullWidthPage,
+            'sidebar--pusher': !filePage,
+            'sidebar--pusher--open': sidebarOpen && !filePage,
+            'sidebar--pusher--filepage': filePage,
           })}
         >
           <main
