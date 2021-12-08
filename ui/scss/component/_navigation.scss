@@ -60,8 +60,8 @@
   width: var(--side-nav-width);
   background-color: var(--color-card-background);
   box-shadow: var(--card-box-shadow);
-
-  transform: translateX(calc(-1 * (var(-side-nav-width--micro))));
+  // transform-origin: left;
+  // transform: translateX(calc(-1 * (var(-side-nav-width--micro))));
   animation-timing-function: var(--resizing-animation-function);
   transition: all var(--resizing-animation-timing);
 
@@ -71,8 +71,8 @@
 }
 
 .navigation--absolute-open {
-  transform: translateX(0);
-  animation: slideInFromNone var(--resizing-animation-timing) var(--resizing-animation-function);
+  // transform: translateX(0);
+  // animation: slideInFromNone var(--resizing-animation-timing) var(--resizing-animation-function);
 }
 
 .navigation--micro {

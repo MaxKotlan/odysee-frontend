@@ -401,13 +401,28 @@ function SideNavigation(props: Props) {
         })}
       >
         <div>
-          <ul className={classnames('navigation-links', { 'navigation-links--micro': !sidebarOpen })}>
+          <ul className="navigation-links--absolute mobile-only">
+            {notificationsEnabled && getLink(NOTIFICATIONS)}
+            {email && livestreamEnabled && getLink(GO_LIVE)}
+          </ul>
+
+          <ul
+            className={classnames('navigation-links', {
+              'navigation-links--micro': !sidebarOpen,
+              'navigation-links--absolute': isAbsolute && sidebarOpen,
+            })}
+          >
             {getLink(HOME)}
             {getLink(RECENT_FROM_FOLLOWING)}
             {getLink(PLAYLISTS)}
           </ul>
 
-          <ul className={classnames('navigation-links', { 'navigation-links--micro': !sidebarOpen })}>
+          <ul
+            className={classnames('navigation-links', {
+              'navigation-links--micro': !sidebarOpen,
+              'navigation-links--absolute': isAbsolute && sidebarOpen,
+            })}
+          >
             {EXTRA_SIDEBAR_LINKS && (
               <>
                 {/* $FlowFixMe -- GetLinksData should fix it's data type */}
@@ -415,6 +430,11 @@ function SideNavigation(props: Props) {
                 {getLink(WILD_WEST)}
               </>
             )}
+          </ul>
+
+          <ul className="navigation-links--absolute mobile-only">
+            {email && MOBILE_LINKS.map((linkProps) => getLink(linkProps))}
+            {!email && UNAUTH_LINKS.map((linkProps) => getLink(linkProps))}
           </ul>
 
           {getSubscriptionSection()}

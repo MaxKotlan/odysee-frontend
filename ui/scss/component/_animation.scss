@@ -110,13 +110,13 @@
 @keyframes slideInFromNone {
   0% {
     display: none;
-    transform: translateX(calc(-1 * (var(--side-nav-width))));
+    transform: translateX(calc(-1 * (var(--side-nav-width--micro))));
     opacity: 0;
   }
 
   1% {
     display: block;
-    transform: translateX(calc(-1 * (var(--side-nav-width))));
+    transform: translateX(calc(-1 * (var(--side-nav-width--micro))));
     opacity: 0.4;
   }
 
