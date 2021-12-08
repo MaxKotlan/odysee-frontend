@@ -32,7 +32,7 @@
 
   animation-timing-function: var(--resizing-animation-function);
   transition: width var(--resizing-animation-timing);
-  z-index: 3;
+  z-index: 4;
   background-color: var(--color-card-background);
 
   @media (min-width: $breakpoint-small) {
@@ -55,23 +55,25 @@
 }
 
 .navigation--absolute {
-  @extend .navigation;
+  // @extend .navigation;
   z-index: 4;
-  width: var(--side-nav-width);
-  background-color: var(--color-card-background);
-  box-shadow: var(--card-box-shadow);
-  // transform-origin: left;
-  // transform: translateX(calc(-1 * (var(-side-nav-width--micro))));
-  animation-timing-function: var(--resizing-animation-function);
-  transition: all var(--resizing-animation-timing);
+  // width: var(--side-nav-width);
+  // background-color: var(--color-card-background);
+  // box-shadow: var(--card-box-shadow);
+  // // transform-origin: left;
+  // // transform: translateX(calc(-1 * (var(-side-nav-width--micro))));
+  // animation-timing-function: var(--resizing-animation-function);
+  // transition: all var(--resizing-animation-timing);
 
-  .navigation-link {
-    padding-left: var(--spacing-m);
-  }
+  // .navigation-link {
+  //   padding-left: var(--spacing-m);
+  // }
 }
 
-.navigation--absolute-open {
-  // transform: translateX(0);
+// .navigation--ab
+
+.navigation-file-page {
+  width: 0;
   // animation: slideInFromNone var(--resizing-animation-timing) var(--resizing-animation-function);
 }
 

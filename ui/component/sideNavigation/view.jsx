@@ -395,9 +395,8 @@ function SideNavigation(props: Props) {
       <nav
         aria-label={'Sidebar'}
         className={classnames('navigation', {
-          'navigation--micro': !sidebarOpen,
-          'navigation--absolute': isAbsolute,
-          'navigation--absolute-open': isAbsolute && sidebarOpen,
+          'navigation--micro': !sidebarOpen && !isOnFilePage,
+          'navigation-file-page': !sidebarOpen && isOnFilePage,
         })}
       >
         <div>
