@@ -422,9 +422,9 @@ function SideNavigation(props: Props) {
         </nav>
       )}
 
-      {(isOnFilePage || isMediumScreen) && sidebarOpen && (
+      {(isOnFilePage || isMediumScreen) && (
         <>
-          <nav className="navigation--absolute">
+          <nav className={classnames('navigation--absolute', { 'navigation--absolute-open': sidebarOpen })}>
             <div>
               <ul className="navigation-links--absolute mobile-only">
                 {notificationsEnabled && getLink(NOTIFICATIONS)}
@@ -458,7 +458,10 @@ function SideNavigation(props: Props) {
               {helpLinks}
             </div>
           </nav>
-          <div className="navigation__overlay" onClick={() => setSidebarOpen(false)} />
+          <div
+            className={classnames('navigation__overlay', { 'navigation__overlay--active': sidebarOpen })}
+            onClick={() => setSidebarOpen(false)}
+          />
         </>
       )}
     </div>
