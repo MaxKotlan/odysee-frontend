@@ -388,85 +388,49 @@ function SideNavigation(props: Props) {
   return (
     <div
       className={classnames('navigation__wrapper', {
-        'navigation__wrapper--micro': microNavigation && !isOnFilePage,
+        'navigation__wrapper--micro': !sidebarOpen && !isOnFilePage,
         'navigation__wrapper--absolute': isAbsolute,
       })}
     >
-      {!isOnFilePage && (
-        <nav
-          aria-label={'Sidebar'}
-          className={classnames('navigation', {
-            'navigation--micro': microNavigation,
-          })}
-        >
-          <div>
-            <ul className={classnames('navigation-links', { 'navigation-links--micro': !sidebarOpen })}>
-              {getLink(HOME)}
-              {getLink(RECENT_FROM_FOLLOWING)}
-              {getLink(PLAYLISTS)}
-            </ul>
+      <nav
+        aria-label={'Sidebar'}
+        className={classnames('navigation', {
+          'navigation--micro': !sidebarOpen,
+          'navigation--absolute': isAbsolute,
+          'navigation--absolute-open': isAbsolute && sidebarOpen,
+        })}
+      >
+        <div>
+          <ul className={classnames('navigation-links', { 'navigation-links--micro': !sidebarOpen })}>
+            {getLink(HOME)}
+            {getLink(RECENT_FROM_FOLLOWING)}
+            {getLink(PLAYLISTS)}
+          </ul>
 
-            <ul className={classnames('navigation-links', { 'navigation-links--micro': !sidebarOpen })}>
-              {EXTRA_SIDEBAR_LINKS && (
-                <>
-                  {/* $FlowFixMe -- GetLinksData should fix it's data type */}
-                  {EXTRA_SIDEBAR_LINKS.map((linkProps) => getLink(linkProps))}
-                  {getLink(WILD_WEST)}
-                </>
-              )}
-            </ul>
+          <ul className={classnames('navigation-links', { 'navigation-links--micro': !sidebarOpen })}>
+            {EXTRA_SIDEBAR_LINKS && (
+              <>
+                {/* $FlowFixMe -- GetLinksData should fix it's data type */}
+                {EXTRA_SIDEBAR_LINKS.map((linkProps) => getLink(linkProps))}
+                {getLink(WILD_WEST)}
+              </>
+            )}
+          </ul>
 
-            {getSubscriptionSection()}
-            {getFollowedTagsSection()}
-            {!isAuthenticated && sidebarOpen && unAuthNudge}
-          </div>
+          {getSubscriptionSection()}
+          {getFollowedTagsSection()}
+          {!isAuthenticated && sidebarOpen && unAuthNudge}
+        </div>
 
-          {sidebarOpen && helpLinks}
-        </nav>
-      )}
-
-      {(isOnFilePage || isMediumScreen) && (
-        <>
-          <nav className={classnames('navigation--absolute', { 'navigation--absolute-open': sidebarOpen })}>
-            <div>
-              <ul className="navigation-links--absolute mobile-only">
-                {notificationsEnabled && getLink(NOTIFICATIONS)}
-                {email && livestreamEnabled && getLink(GO_LIVE)}
-              </ul>
-
-              <ul className="navigation-links--absolute">
-                {getLink(HOME)}
-                {getLink(RECENT_FROM_FOLLOWING)}
-                {getLink(PLAYLISTS)}
-              </ul>
-
-              <ul className="navigation-links--absolute">
-                {EXTRA_SIDEBAR_LINKS && (
-                  <>
-                    {/* $FlowFixMe -- GetLinksData should fix it's data type */}
-                    {EXTRA_SIDEBAR_LINKS.map((linkProps) => getLink(linkProps))}
-                    {getLink(WILD_WEST)}
-                  </>
-                )}
-              </ul>
-
-              <ul className="navigation-links--absolute mobile-only">
-                {email && MOBILE_LINKS.map((linkProps) => getLink(linkProps))}
-                {!email && UNAUTH_LINKS.map((linkProps) => getLink(linkProps))}
-              </ul>
-
-              {getSubscriptionSection()}
-              {getFollowedTagsSection()}
-              {!isAuthenticated && unAuthNudge}
-              {helpLinks}
-            </div>
-          </nav>
-          <div
-            className={classnames('navigation__overlay', { 'navigation__overlay--active': sidebarOpen })}
-            onClick={() => setSidebarOpen(false)}
-          />
-        </>
-      )}
+        {sidebarOpen && helpLinks}
+      </nav>
+      <div
+        className={classnames({
+          navigation__overlay: isAbsolute,
+          'navigation__overlay--active': isAbsolute && sidebarOpen,
+        })}
+        onClick={() => setSidebarOpen(false)}
+      />
     </div>
   );
 }

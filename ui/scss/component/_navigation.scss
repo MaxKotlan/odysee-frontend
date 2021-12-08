@@ -61,7 +61,7 @@
   background-color: var(--color-card-background);
   box-shadow: var(--card-box-shadow);
 
-  transform: translateX(calc(-1 * (var(--side-nav-width))));
+  transform: translateX(calc(-1 * (var(-side-nav-width--micro))));
   animation-timing-function: var(--resizing-animation-function);
   transition: all var(--resizing-animation-timing);
 
