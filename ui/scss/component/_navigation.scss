@@ -30,8 +30,8 @@
   display: flex;
   flex-direction: column;
 
-  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: width 250ms;
+  animation-timing-function: var(--resizing-animation-function);
+  transition: width var(--resizing-animation-timing);
   z-index: 3;
   background-color: var(--color-card-background);
 
@@ -62,8 +62,8 @@
   box-shadow: var(--card-box-shadow);
 
   transform: translateX(calc(-1 * (var(--side-nav-width))));
-  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 250ms;
+  animation-timing-function: var(--resizing-animation-function);
+  transition: all var(--resizing-animation-timing);
 
   .navigation-link {
     padding-left: var(--spacing-m);
@@ -72,7 +72,7 @@
 
 .navigation--absolute-open {
   transform: translateX(0);
-  animation: slideInFromNone 250ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: slideInFromNone var(--resizing-animation-timing) var(--resizing-animation-function);
 }
 
 .navigation--micro {
@@ -287,8 +287,8 @@
   top: var(--header-height);
   visibility: hidden;
   opacity: 0;
-  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: visibility 250ms, opacity 250ms;
+  animation-timing-function: var(--resizing-animation-function);
+  transition: visibility var(--resizing-animation-timing), opacity var(--resizing-animation-timing);
 
   &.navigation__overlay--mac {
     top: calc(var(--header-height) + var(--mac-titlebar-height));

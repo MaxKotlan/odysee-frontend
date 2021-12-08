@@ -43,8 +43,8 @@
 }
 
 .sidebar--pusher {
-  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 250ms;
+  animation-timing-function: var(--resizing-animation-function);
+  transition: all var(--resizing-animation-timing);
   position: absolute;
 
   @media (max-width: $breakpoint-small) {
