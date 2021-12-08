@@ -219,7 +219,6 @@ function SideNavigation(props: Props) {
 
   const isPersonalized = !IS_WEB || isAuthenticated;
   const isAbsolute = isOnFilePage || isMediumScreen;
-  const microNavigation = !sidebarOpen || isMediumScreen;
 
   const showSubscriptionSection = sidebarOpen && isPersonalized && subscriptions && subscriptions.length > 0;
   const showTagSection = sidebarOpen && isPersonalized && followedTags && followedTags.length;
