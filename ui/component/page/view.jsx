@@ -98,11 +98,11 @@ function Page(props: Props) {
   }
 
   React.useEffect(() => {
-    if (isOnFilePage || isMediumScreen) {
+    if (isOnFilePage) {
       setSidebarOpen(false);
     }
     // TODO: make sure setState callback for usePersistedState uses useCallback to it doesn't cause effect to re-run
-  }, [isOnFilePage, isMediumScreen]);
+  }, [isOnFilePage]);
 
   return (
     <Fragment>
