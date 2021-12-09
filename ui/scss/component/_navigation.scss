@@ -54,25 +54,7 @@
   top: calc(var(--header-height) + var(--mac-titlebar-height));
 }
 
-.navigation--absolute {
-  // @extend .navigation;
-  z-index: 4;
-  // width: var(--side-nav-width);
-  // background-color: var(--color-card-background);
-  // box-shadow: var(--card-box-shadow);
-  // // transform-origin: left;
-  // // transform: translateX(calc(-1 * (var(-side-nav-width--micro))));
-  // animation-timing-function: var(--resizing-animation-function);
-  // transition: all var(--resizing-animation-timing);
-
-  // .navigation-link {
-  //   padding-left: var(--spacing-m);
-  // }
-}
-
-// .navigation--ab
-
-.navigation-file-page {
+.navigation-file-page-and-mobile {
   width: 0;
 }
 
