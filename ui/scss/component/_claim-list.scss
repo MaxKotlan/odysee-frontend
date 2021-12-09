@@ -392,8 +392,11 @@
 // It should probably go into it's own file once we add more to it
 //
 .claim-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-template-rows: repeat(auto-fit, 20rem);
+  gap: 2.4rem;
+  //flex-wrap: wrap;
   list-style: none;
   align-items: flex-start;
 }
@@ -401,6 +404,7 @@
 .claim-grid__wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   &:not(:first-of-type) {
     margin-top: var(--spacing-l);
   }
@@ -483,73 +487,74 @@
 }
 
 .claim-preview--tile {
-  margin-bottom: var(--spacing-m);
-  margin-right: 0;
-  margin-top: 0;
-  margin-left: var(--spacing-m);
-  justify-content: flex-start;
-  list-style: none;
+  // //margin-bottom: var(--spacing-m);
+  // margin-right: 0;
+  // margin-top: 0;
+  // //margin-left: var(--spacing-m);
+  // width: 100% !important;
+  // justify-content: flex-start;
+  // list-style: none;
 
-  .media__thumb {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
+  // .media__thumb {
+  //   border-bottom-right-radius: 0;
+  //   border-bottom-left-radius: 0;
+  // }
 
-  &:hover {
-    cursor: pointer;
+  // &:hover {
+  //   cursor: pointer;
 
-    .claim__menu-button {
-      opacity: 1;
-    }
-    .collection-preview__overlay-thumbs {
-      opacity: 1;
-      transition: 0.3s;
-    }
-  }
+  //   .claim__menu-button {
+  //     opacity: 1;
+  //   }
+  //   .collection-preview__overlay-thumbs {
+  //     opacity: 1;
+  //     transition: 0.3s;
+  //   }
+  // }
 
-  @media (min-width: $breakpoint-large) {
-    $width: calc((100% - var(--spacing-m) * 5) / 6);
-    width: $width;
-    @include handleClaimTileGifThumbnail($width);
+  // @media (min-width: $breakpoint-large) {
+  //   $width: calc((100% - var(--spacing-m) * 5) / 6);
+  //   width: $width;
+  //   @include handleClaimTileGifThumbnail($width);
 
-    &:first-child,
-    &:nth-child(6n + 1) {
-      margin-left: 0;
-    }
-  }
+  //   &:first-child,
+  //   &:nth-child(6n + 1) {
+  //     margin-left: 0;
+  //   }
+  // }
 
-  @media (max-width: $breakpoint-large) and (min-width: $breakpoint-medium) {
-    $width: calc((100% - var(--spacing-m) * 3) / 4);
-    width: $width;
-    @include handleClaimTileGifThumbnail($width);
+  // @media (max-width: $breakpoint-large) and (min-width: $breakpoint-medium) {
+  //   $width: calc((100% - var(--spacing-m) * 3) / 4);
+  //   width: $width;
+  //   @include handleClaimTileGifThumbnail($width);
 
-    &:first-child,
-    &:nth-child(4n + 1) {
-      margin-left: 0;
-    }
-  }
+  //   &:first-child,
+  //   &:nth-child(4n + 1) {
+  //     margin-left: 0;
+  //   }
+  // }
 
-  @media (max-width: $breakpoint-medium) and (min-width: $breakpoint-small) {
-    $width: calc((100vw - var(--side-nav-width--micro) - var(--spacing-xl) * 3) / 3);
-    width: $width;
-    @include handleClaimTileGifThumbnail($width);
+  // @media (max-width: $breakpoint-medium) and (min-width: $breakpoint-small) {
+  //   $width: calc((100vw - var(--side-nav-width--micro) - var(--spacing-xl) * 3) / 3);
+  //   width: $width;
+  //   @include handleClaimTileGifThumbnail($width);
 
-    &:first-child,
-    &:nth-child(3n + 1) {
-      margin-left: 0;
-    }
-  }
+  //   &:first-child,
+  //   &:nth-child(3n + 1) {
+  //     margin-left: 0;
+  //   }
+  // }
 
-  @media (max-width: $breakpoint-small) {
-    $width: 100%;
-    width: $width;
-    @include handleClaimTileGifThumbnail($width);
-    margin-left: 0;
+  // @media (max-width: $breakpoint-small) {
+  //   $width: 100%;
+  //   width: $width;
+  //   @include handleClaimTileGifThumbnail($width);
+  //   margin-left: 0;
 
-    &:not(:first-child) {
-      margin-top: var(--spacing-s);
-    }
-  }
+  //   &:not(:first-child) {
+  //     margin-top: var(--spacing-s);
+  //   }
+  // }
 }
 
 .claim-tile__title {

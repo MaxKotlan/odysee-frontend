@@ -5,9 +5,9 @@
   overflow: hidden;
   border: 1px solid var(--color-border);
 
-  ~ .card {
-    margin-bottom: var(--spacing-m);
-  }
+  // ~ .card {
+  //   margin-bottom: var(--spacing-m);
+  // }
 }
 
 .card--enable-overflow {
