@@ -396,6 +396,7 @@ function SideNavigation(props: Props) {
         aria-label={'Sidebar'}
         className={classnames('navigation', {
           'navigation--micro': !sidebarOpen && !(isOnFilePage || isMobile),
+          'navigation--push': sidebarOpen && !(isOnFilePage || isMobile),
           'navigation-file-page-and-mobile': !sidebarOpen && (isOnFilePage || isMobile),
         })}
       >
