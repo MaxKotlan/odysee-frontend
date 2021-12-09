@@ -44,7 +44,7 @@
 
 .sidebar--pusher {
   animation-timing-function: var(--resizing-animation-function);
-  transition: all var(--resizing-animation-timing);
+  transition: margin var(--resizing-animation-timing);
   position: absolute;
 
   @media (max-width: $breakpoint-small) {
