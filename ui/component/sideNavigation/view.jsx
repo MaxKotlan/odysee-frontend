@@ -408,7 +408,7 @@ function SideNavigation(props: Props) {
 
           <ul
             className={classnames('navigation-links', {
-              'navigation-links--micro': !sidebarOpen,
+              'navigation-links--micro': !sidebarOpen && !(isOnFilePage || isMobile),
               'navigation-links--absolute': isAbsolute && sidebarOpen,
             })}
           >
@@ -419,7 +419,7 @@ function SideNavigation(props: Props) {
 
           <ul
             className={classnames('navigation-links', {
-              'navigation-links--micro': !sidebarOpen,
+              'navigation-links--micro': !sidebarOpen && !(isOnFilePage || isMobile),
               'navigation-links--absolute': isAbsolute && sidebarOpen,
             })}
           >
