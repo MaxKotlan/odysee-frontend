@@ -10,7 +10,7 @@ import Icon from 'component/common/icon';
 import NotificationBubble from 'component/notificationBubble';
 import I18nMessage from 'component/i18nMessage';
 import ChannelThumbnail from 'component/channelThumbnail';
-import { useIsLargeScreen } from 'effects/use-screensize';
+import { useIsMobile, useIsLargeScreen } from 'effects/use-screensize';
 import { GetLinksData } from 'util/buildHomepage';
 import { DOMAIN, ENABLE_UI_NOTIFICATIONS, ENABLE_NO_SOURCE_CLAIMS, CHANNEL_STAKED_LEVEL_LIVESTREAM } from 'config';
 
@@ -219,7 +219,7 @@ function SideNavigation(props: Props) {
 
   const isPersonalized = !IS_WEB || isAuthenticated;
   const isAbsolute = isOnFilePage || isMediumScreen;
-  const microNavigation = !sidebarOpen || isMediumScreen;
+  const isMobile = useIsMobile();
 
   const showSubscriptionSection = sidebarOpen && isPersonalized && subscriptions && subscriptions.length > 0;
   const showTagSection = sidebarOpen && isPersonalized && followedTags && followedTags.length;
@@ -388,85 +388,67 @@ function SideNavigation(props: Props) {
   return (
     <div
       className={classnames('navigation__wrapper', {
-        'navigation__wrapper--micro': microNavigation && !isOnFilePage,
+        'navigation__wrapper--micro': !sidebarOpen && !isOnFilePage,
         'navigation__wrapper--absolute': isAbsolute,
       })}
     >
-      {!isOnFilePage && (
-        <nav
-          aria-label={'Sidebar'}
-          className={classnames('navigation', {
-            'navigation--micro': microNavigation,
-          })}
-        >
-          <div>
-            <ul className={classnames('navigation-links', { 'navigation-links--micro': !sidebarOpen })}>
-              {getLink(HOME)}
-              {getLink(RECENT_FROM_FOLLOWING)}
-              {getLink(PLAYLISTS)}
-            </ul>
+      <nav
+        aria-label={'Sidebar'}
+        className={classnames('navigation', {
+          'navigation--micro': !sidebarOpen && !(isOnFilePage || isMobile),
+          'navigation-file-page-and-mobile': !sidebarOpen && (isOnFilePage || isMobile),
+        })}
+      >
+        <div>
+          <ul className="navigation-links--absolute mobile-only">
+            {notificationsEnabled && getLink(NOTIFICATIONS)}
+            {email && livestreamEnabled && getLink(GO_LIVE)}
+          </ul>
 
-            <ul className={classnames('navigation-links', { 'navigation-links--micro': !sidebarOpen })}>
-              {EXTRA_SIDEBAR_LINKS && (
-                <>
-                  {/* $FlowFixMe -- GetLinksData should fix it's data type */}
-                  {EXTRA_SIDEBAR_LINKS.map((linkProps) => getLink(linkProps))}
-                  {getLink(WILD_WEST)}
-                </>
-              )}
-            </ul>
+          <ul
+            className={classnames('navigation-links', {
+              'navigation-links--micro': !sidebarOpen,
+              'navigation-links--absolute': isAbsolute && sidebarOpen,
+            })}
+          >
+            {getLink(HOME)}
+            {getLink(RECENT_FROM_FOLLOWING)}
+            {getLink(PLAYLISTS)}
+          </ul>
 
-            {getSubscriptionSection()}
-            {getFollowedTagsSection()}
-            {!isAuthenticated && sidebarOpen && unAuthNudge}
-          </div>
+          <ul
+            className={classnames('navigation-links', {
+              'navigation-links--micro': !sidebarOpen,
+              'navigation-links--absolute': isAbsolute && sidebarOpen,
+            })}
+          >
+            {EXTRA_SIDEBAR_LINKS && (
+              <>
+                {/* $FlowFixMe -- GetLinksData should fix it's data type */}
+                {EXTRA_SIDEBAR_LINKS.map((linkProps) => getLink(linkProps))}
+                {getLink(WILD_WEST)}
+              </>
+            )}
+          </ul>
 
-          {sidebarOpen && helpLinks}
-        </nav>
-      )}
+          <ul className="navigation-links--absolute mobile-only">
+            {email && MOBILE_LINKS.map((linkProps) => getLink(linkProps))}
+            {!email && UNAUTH_LINKS.map((linkProps) => getLink(linkProps))}
+          </ul>
 
-      {(isOnFilePage || isMediumScreen) && (
-        <>
-          <nav className={classnames('navigation--absolute', { 'navigation--absolute-open': sidebarOpen })}>
-            <div>
-              <ul className="navigation-links--absolute mobile-only">
-                {notificationsEnabled && getLink(NOTIFICATIONS)}
-                {email && livestreamEnabled && getLink(GO_LIVE)}
-              </ul>
+          {getSubscriptionSection()}
+          {getFollowedTagsSection()}
+          {!isAuthenticated && sidebarOpen && unAuthNudge}
+        </div>
 
-              <ul className="navigation-links--absolute">
-                {getLink(HOME)}
-                {getLink(RECENT_FROM_FOLLOWING)}
-                {getLink(PLAYLISTS)}
-              </ul>
-
-              <ul className="navigation-links--absolute">
-                {EXTRA_SIDEBAR_LINKS && (
-                  <>
-                    {/* $FlowFixMe -- GetLinksData should fix it's data type */}
-                    {EXTRA_SIDEBAR_LINKS.map((linkProps) => getLink(linkProps))}
-                    {getLink(WILD_WEST)}
-                  </>
-                )}
-              </ul>
-
-              <ul className="navigation-links--absolute mobile-only">
-                {email && MOBILE_LINKS.map((linkProps) => getLink(linkProps))}
-                {!email && UNAUTH_LINKS.map((linkProps) => getLink(linkProps))}
-              </ul>
-
-              {getSubscriptionSection()}
-              {getFollowedTagsSection()}
-              {!isAuthenticated && unAuthNudge}
-              {helpLinks}
-            </div>
-          </nav>
-          <div
-            className={classnames('navigation__overlay', { 'navigation__overlay--active': sidebarOpen })}
-            onClick={() => setSidebarOpen(false)}
-          />
-        </>
-      )}
+        {sidebarOpen && helpLinks}
+      </nav>
+      <div
+        className={classnames('navigation__overlay', {
+          'navigation__overlay--active': isAbsolute && sidebarOpen,
+        })}
+        onClick={() => setSidebarOpen(false)}
+      />
     </div>
   );
 }
