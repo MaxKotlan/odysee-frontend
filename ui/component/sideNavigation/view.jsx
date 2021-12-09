@@ -10,7 +10,7 @@ import Icon from 'component/common/icon';
 import NotificationBubble from 'component/notificationBubble';
 import I18nMessage from 'component/i18nMessage';
 import ChannelThumbnail from 'component/channelThumbnail';
-import { useIsLargeScreen } from 'effects/use-screensize';
+import { useIsMobile, useIsLargeScreen } from 'effects/use-screensize';
 import { GetLinksData } from 'util/buildHomepage';
 import { DOMAIN, ENABLE_UI_NOTIFICATIONS, ENABLE_NO_SOURCE_CLAIMS, CHANNEL_STAKED_LEVEL_LIVESTREAM } from 'config';
 
@@ -219,6 +219,7 @@ function SideNavigation(props: Props) {
 
   const isPersonalized = !IS_WEB || isAuthenticated;
   const isAbsolute = isOnFilePage || isMediumScreen;
+  const isMobile = useIsMobile();
 
   const showSubscriptionSection = sidebarOpen && isPersonalized && subscriptions && subscriptions.length > 0;
   const showTagSection = sidebarOpen && isPersonalized && followedTags && followedTags.length;
@@ -394,8 +395,8 @@ function SideNavigation(props: Props) {
       <nav
         aria-label={'Sidebar'}
         className={classnames('navigation', {
-          'navigation--micro': !sidebarOpen && !isOnFilePage,
-          'navigation-file-page': !sidebarOpen && isOnFilePage,
+          'navigation--micro': !sidebarOpen && !(isOnFilePage || isMobile),
+          'navigation-file-page': !sidebarOpen && (isOnFilePage || isMobile),
         })}
       >
         <div>
