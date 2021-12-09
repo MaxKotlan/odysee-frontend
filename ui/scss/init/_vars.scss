@@ -102,8 +102,8 @@ $breakpoint-large: 1600px;
   --livestream-comments-width: 30rem;
 
   // Animations
-  --resizing-animation-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-  --resizing-animation-timing: 180ms;
+  --resizing-animation-function: ease-in;
+  --resizing-animation-timing: 250ms;
 }
 
 @media (max-width: $breakpoint-small) {
