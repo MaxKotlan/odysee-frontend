@@ -196,6 +196,10 @@
   list-style: none;
 }
 
+.navigation-inner-container {
+  width: var(--side-nav-width);
+}
+
 .navigation-links--micro {
   .icon {
     height: 1.5rem;

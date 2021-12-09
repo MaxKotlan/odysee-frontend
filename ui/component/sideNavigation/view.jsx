@@ -400,7 +400,7 @@ function SideNavigation(props: Props) {
           'navigation-file-page-and-mobile': !sidebarOpen && (isOnFilePage || isMobile),
         })}
       >
-        <div>
+        <div className="navigation-inner-container">
           <ul className="navigation-links--absolute mobile-only">
             {notificationsEnabled && getLink(NOTIFICATIONS)}
             {email && livestreamEnabled && getLink(GO_LIVE)}
