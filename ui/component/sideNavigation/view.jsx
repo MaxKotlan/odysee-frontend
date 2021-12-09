@@ -443,8 +443,7 @@ function SideNavigation(props: Props) {
         {sidebarOpen && helpLinks}
       </nav>
       <div
-        className={classnames({
-          navigation__overlay: isAbsolute,
+        className={classnames('navigation__overlay', {
           'navigation__overlay--active': isAbsolute && sidebarOpen,
         })}
         onClick={() => setSidebarOpen(false)}
