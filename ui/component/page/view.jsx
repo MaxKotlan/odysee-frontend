@@ -125,6 +125,7 @@ function Page(props: Props) {
           className={classnames({
             'sidebar--pusher': !(filePage || livestream),
             'sidebar--pusher--open': sidebarOpen && !(filePage || livestream),
+            'sidebar--pusher--open--fullscreen': sidebarOpen && fullWidthPage && !(filePage || livestream),
             'sidebar--pusher--filepage': filePage || livestream,
           })}
         >

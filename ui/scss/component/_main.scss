@@ -66,6 +66,12 @@
 
 .sidebar--pusher--open {
   @media (min-width: $breakpoint-medium) {
+    transform: translateX(calc(var(--side-nav-width) - var(--spacing-m)));
+  }
+}
+
+.sidebar--pusher--open--fullscreen {
+  @media (min-width: $breakpoint-medium) {
     transform: translateX(calc(var(--side-nav-width) - var(--spacing-m))) scaleX(0.94);
   }
 }
