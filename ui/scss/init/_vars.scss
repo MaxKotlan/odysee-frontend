@@ -103,7 +103,7 @@ $breakpoint-large: 1600px;
 
   // Animations
   --resizing-animation-function: ease-in;
-  --resizing-animation-timing: 250ms;
+  --resizing-animation-timing: 180ms;
 }
 
 @media (max-width: $breakpoint-small) {
