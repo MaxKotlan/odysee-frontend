@@ -123,9 +123,9 @@ function Page(props: Props) {
 
         <div
           className={classnames({
-            'sidebar--pusher': !(filePage || livestream),
-            'sidebar--pusher--open': sidebarOpen && !(filePage || livestream),
-            'sidebar--pusher--filepage': filePage || livestream,
+            'sidebar--pusher': fullWidthPage,
+            'sidebar--pusher--open': sidebarOpen && fullWidthPage,
+            'sidebar--pusher--filepage': !fullWidthPage,
           })}
         >
           <main
