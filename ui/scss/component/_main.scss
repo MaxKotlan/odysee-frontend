@@ -279,6 +279,10 @@
 .main--full-width {
   @extend .main;
 
+  @media (max-width: $breakpoint-medium) and (min-width: $breakpoint-small) {
+    margin: 0;
+  }
+
   @media (min-width: $breakpoint-large) {
     max-width: none;
     width: 100%;
