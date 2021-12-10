@@ -221,7 +221,8 @@ function SideNavigation(props: Props) {
   const isAbsolute = isOnFilePage || isMediumScreen;
   const isMobile = useIsMobile();
 
-  const showSubscriptionSection = sidebarOpen && isPersonalized && subscriptions && subscriptions.length > 0;
+  const showSubscriptionSection =
+    (sidebarOpen || isOnFilePage || isMobile) && isPersonalized && subscriptions && subscriptions.length > 0;
   const showTagSection = sidebarOpen && isPersonalized && followedTags && followedTags.length;
 
   let displayedSubscriptions = subscriptions;
