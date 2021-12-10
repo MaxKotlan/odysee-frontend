@@ -223,6 +223,22 @@ function SideNavigation(props: Props) {
 
   const menuCanCloseCompletey = livestreamEnabled || isOnFilePage || isMobile;
   const hideMenuFromView = menuCanCloseCompletey && !sidebarOpen;
+  const showMenuFromHiddenView = menuCanCloseCompletey && sidebarOpen;
+
+  const [canDisposeMenu, setCanDisposeMenu] = React.useState(false);
+
+  React.useEffect(() => {
+    if (hideMenuFromView) {
+      const handler = setTimeout(() => {
+        setCanDisposeMenu(true);
+      }, 250);
+      return () => {
+        clearTimeout(handler);
+      };
+    } else {
+      setCanDisposeMenu(false);
+    }
+  }, [hideMenuFromView]);
 
   const shouldRenderLargeMenuPushorAbsolute = menuCanCloseCompletey || sidebarOpen;
 
@@ -395,71 +411,74 @@ function SideNavigation(props: Props) {
   );
 
   return (
-    <div
-      className={classnames('navigation__wrapper', {
-        'navigation__wrapper--micro': showMicroMenu,
-        'navigation__wrapper--absolute': isAbsolute,
-      })}
-    >
-      <nav
-        aria-label={'Sidebar'}
-        className={classnames('navigation', {
-          'navigation--micro': showMicroMenu,
-          'navigation--push': showPushMenu,
-          'navigation-file-page-and-mobile': hideMenuFromView,
+    (!canDisposeMenu || sidebarOpen) && (
+      <div
+        className={classnames('navigation__wrapper', {
+          'navigation__wrapper--micro': showMicroMenu,
+          'navigation__wrapper--absolute': isAbsolute,
         })}
       >
-        <div className="navigation-inner-container">
-          <ul className="navigation-links--absolute mobile-only">
-            {notificationsEnabled && getLink(NOTIFICATIONS)}
-            {email && livestreamEnabled && getLink(GO_LIVE)}
-          </ul>
+        <nav
+          aria-label={'Sidebar'}
+          className={classnames('navigation', {
+            'navigation--micro': showMicroMenu,
+            'navigation--push': showPushMenu,
+            'navigation-file-page-and-mobile': hideMenuFromView,
+            'navigation--open--from--hidden': showMenuFromHiddenView,
+          })}
+        >
+          <div className="navigation-inner-container">
+            <ul className="navigation-links--absolute mobile-only">
+              {notificationsEnabled && getLink(NOTIFICATIONS)}
+              {email && livestreamEnabled && getLink(GO_LIVE)}
+            </ul>
 
-          <ul
-            className={classnames('navigation-links', {
-              'navigation-links--micro': showMicroMenu,
-              'navigation-links--absolute': shouldRenderLargeMenuPushorAbsolute,
-            })}
-          >
-            {getLink(HOME)}
-            {getLink(RECENT_FROM_FOLLOWING)}
-            {getLink(PLAYLISTS)}
-          </ul>
+            <ul
+              className={classnames('navigation-links', {
+                'navigation-links--micro': showMicroMenu,
+                'navigation-links--absolute': shouldRenderLargeMenuPushorAbsolute,
+              })}
+            >
+              {getLink(HOME)}
+              {getLink(RECENT_FROM_FOLLOWING)}
+              {getLink(PLAYLISTS)}
+            </ul>
 
-          <ul
-            className={classnames('navigation-links', {
-              'navigation-links--micro': showMicroMenu,
-              'navigation-links--absolute': shouldRenderLargeMenuPushorAbsolute,
-            })}
-          >
-            {EXTRA_SIDEBAR_LINKS && (
-              <>
-                {/* $FlowFixMe -- GetLinksData should fix it's data type */}
-                {EXTRA_SIDEBAR_LINKS.map((linkProps) => getLink(linkProps))}
-                {getLink(WILD_WEST)}
-              </>
-            )}
-          </ul>
+            <ul
+              className={classnames('navigation-links', {
+                'navigation-links--micro': showMicroMenu,
+                'navigation-links--absolute': shouldRenderLargeMenuPushorAbsolute,
+              })}
+            >
+              {EXTRA_SIDEBAR_LINKS && (
+                <>
+                  {/* $FlowFixMe -- GetLinksData should fix it's data type */}
+                  {EXTRA_SIDEBAR_LINKS.map((linkProps) => getLink(linkProps))}
+                  {getLink(WILD_WEST)}
+                </>
+              )}
+            </ul>
 
-          <ul className="navigation-links--absolute mobile-only">
-            {email && MOBILE_LINKS.map((linkProps) => getLink(linkProps))}
-            {!email && UNAUTH_LINKS.map((linkProps) => getLink(linkProps))}
-          </ul>
+            <ul className="navigation-links--absolute mobile-only">
+              {email && MOBILE_LINKS.map((linkProps) => getLink(linkProps))}
+              {!email && UNAUTH_LINKS.map((linkProps) => getLink(linkProps))}
+            </ul>
 
-          {getSubscriptionSection()}
-          {getFollowedTagsSection()}
-          {!isAuthenticated && sidebarOpen && unAuthNudge}
-        </div>
+            {getSubscriptionSection()}
+            {getFollowedTagsSection()}
+            {!isAuthenticated && sidebarOpen && unAuthNudge}
+          </div>
 
-        {shouldRenderLargeMenuPushorAbsolute && helpLinks}
-      </nav>
-      <div
-        className={classnames('navigation__overlay', {
-          'navigation__overlay--active': isAbsolute && sidebarOpen,
-        })}
-        onClick={() => setSidebarOpen(false)}
-      />
-    </div>
+          {shouldRenderLargeMenuPushorAbsolute && helpLinks}
+        </nav>
+        <div
+          className={classnames('navigation__overlay', {
+            'navigation__overlay--active': isAbsolute && sidebarOpen,
+          })}
+          onClick={() => setSidebarOpen(false)}
+        />
+      </div>
+    )
   );
 }
 

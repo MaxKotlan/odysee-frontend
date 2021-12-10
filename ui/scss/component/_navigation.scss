@@ -69,6 +69,19 @@
   transform: translateX(calc(-1 * var(--side-nav-width)));
 }
 
+@keyframes menuShowFromHidden {
+  from {
+    transform: translateX(calc(-1 * var(--side-nav-width)));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.navigation--open--from--hidden {
+  animation: menuShowFromHidden var(--resizing-animation-function) var(--resizing-animation-timing);
+}
+
 .navigation--micro {
   @extend .navigation;
   transform: translateX(calc(-1 * (var(--side-nav-width) - var(--side-nav-width--micro))));
