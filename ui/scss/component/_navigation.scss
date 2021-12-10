@@ -297,6 +297,7 @@
 .navigation__overlay--active {
   opacity: 1;
   visibility: visible;
+  animation: fadeIn var(--resizing-animation-timing) var(--resizing-animation-function);
 }
 
 .navigation__auth-nudge {
