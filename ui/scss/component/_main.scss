@@ -73,7 +73,7 @@
 
 .main {
   position: relative;
-  width: calc(100% - var(--spacing-l));
+  width: calc(100% - 2 * var(--spacing-l));
   max-width: var(--page-max-width);
   z-index: 0;
   margin-right: auto;
@@ -83,7 +83,7 @@
     margin: 0 var(--spacing-l);
   }
 
-  @media (max-width: $breakpoint-medium) {
+  @media (max-width: $breakpoint-small) {
     width: 100%;
   }
 }
