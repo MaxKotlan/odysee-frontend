@@ -442,7 +442,7 @@ function SideNavigation(props: Props) {
           {!isAuthenticated && sidebarOpen && unAuthNudge}
         </div>
 
-        {sidebarOpen && helpLinks}
+        {(sidebarOpen || isOnFilePage || isMobile) && helpLinks}
       </nav>
       <div
         className={classnames('navigation__overlay', {
