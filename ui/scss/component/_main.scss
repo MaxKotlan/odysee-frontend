@@ -45,7 +45,7 @@
 .sidebar--pusher {
   animation-timing-function: var(--resizing-animation-function);
   transition: transform var(--resizing-animation-timing);
-  transform-origin: left;
+  transform-origin: center;
   position: absolute;
 
   @media (max-width: $breakpoint-small) {
@@ -56,7 +56,7 @@
   @media (min-width: $breakpoint-small) {
     transform: translateX(calc(var(--side-nav-width--micro) + var(--spacing-l)));
     margin-right: var(--spacing-l);
-    width: calc(100% - ((var(--side-nav-width--micro)) + 2 * var(--spacing-l)));
+    width: calc(100% - ((var(--side-nav-width)) + 2 * var(--spacing-l)));
   }
 }
 
@@ -66,18 +66,26 @@
 
 .sidebar--pusher--open {
   @media (min-width: $breakpoint-medium) {
-    transform: translateX(calc(var(--side-nav-width) + var(--spacing-l)));
-    width: calc(100% - (var(--side-nav-width)) - 2 * var(--spacing-l));
+    transform: translateX(calc(var(--side-nav-width))) scaleX(0.95);
+    //transform: ;
+    //width: calc(100% - (var(--side-nav-width)) - 2 * var(--spacing-l));
   }
 }
 
 .main {
-  position: relative;
+  position: absolute;
   width: calc(100% - var(--spacing-l));
   max-width: var(--page-max-width);
   z-index: 0;
-  margin-right: auto;
-  margin-left: auto;
+  animation-timing-function: var(--resizing-animation-function);
+  transition: transform var(--resizing-animation-timing);
+
+  //margin-right: auto;
+  //margin-left: auto;
+  transform-origin: center;
+  transform: translateX(-50%);
+  left: 50%;
+  //right: 50%;
 
   @media (max-width: $breakpoint-medium) {
     width: 100%;
