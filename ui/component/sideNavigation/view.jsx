@@ -223,7 +223,6 @@ function SideNavigation(props: Props) {
 
   const menuCanCloseCompletey = livestreamEnabled || isOnFilePage || isMobile;
   const hideMenuFromView = menuCanCloseCompletey && !sidebarOpen;
-  const showMenuFromHiddenView = menuCanCloseCompletey && sidebarOpen;
 
   const [canDisposeMenu, setCanDisposeMenu] = React.useState(false);
 
@@ -411,22 +410,21 @@ function SideNavigation(props: Props) {
   );
 
   return (
-    (!canDisposeMenu || sidebarOpen) && (
-      <div
-        className={classnames('navigation__wrapper', {
-          'navigation__wrapper--micro': showMicroMenu,
-          'navigation__wrapper--absolute': isAbsolute,
+    <div
+      className={classnames('navigation__wrapper', {
+        'navigation__wrapper--micro': showMicroMenu,
+        'navigation__wrapper--absolute': isAbsolute,
+      })}
+    >
+      <nav
+        aria-label={'Sidebar'}
+        className={classnames('navigation', {
+          'navigation--micro': showMicroMenu,
+          'navigation--push': showPushMenu,
+          'navigation-file-page-and-mobile': hideMenuFromView,
         })}
       >
-        <nav
-          aria-label={'Sidebar'}
-          className={classnames('navigation', {
-            'navigation--micro': showMicroMenu,
-            'navigation--push': showPushMenu,
-            'navigation-file-page-and-mobile': hideMenuFromView,
-            'navigation--open--from--hidden': showMenuFromHiddenView,
-          })}
-        >
+        {(!canDisposeMenu || sidebarOpen) && (
           <div className="navigation-inner-container">
             <ul className="navigation-links--absolute mobile-only">
               {notificationsEnabled && getLink(NOTIFICATIONS)}
@@ -468,17 +466,16 @@ function SideNavigation(props: Props) {
             {getFollowedTagsSection()}
             {!isAuthenticated && sidebarOpen && unAuthNudge}
           </div>
-
-          {shouldRenderLargeMenuPushorAbsolute && helpLinks}
-        </nav>
-        <div
-          className={classnames('navigation__overlay', {
-            'navigation__overlay--active': isAbsolute && sidebarOpen,
-          })}
-          onClick={() => setSidebarOpen(false)}
-        />
-      </div>
-    )
+        )}
+        {(!canDisposeMenu || sidebarOpen) && shouldRenderLargeMenuPushorAbsolute && helpLinks}
+      </nav>
+      <div
+        className={classnames('navigation__overlay', {
+          'navigation__overlay--active': isAbsolute && sidebarOpen,
+        })}
+        onClick={() => setSidebarOpen(false)}
+      />
+    </div>
   );
 }
 
