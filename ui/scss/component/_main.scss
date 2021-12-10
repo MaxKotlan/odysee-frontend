@@ -66,6 +66,10 @@
 
 .sidebar--pusher--open {
   @media (min-width: $breakpoint-medium) {
+    transform: translateX(calc(var(--side-nav-width) - var(--spacing-m))) scaleX(0.94);
+  }
+
+  @media (min-width: $breakpoint-large) {
     transform: translateX(calc(var(--side-nav-width) - var(--spacing-m)));
   }
 }
