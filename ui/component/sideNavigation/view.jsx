@@ -221,8 +221,13 @@ function SideNavigation(props: Props) {
   const isAbsolute = isOnFilePage || isMediumScreen;
   const isMobile = useIsMobile();
 
-  const showSubscriptionSection =
-    (sidebarOpen || isOnFilePage || isMobile) && isPersonalized && subscriptions && subscriptions.length > 0;
+  const menuCanCloseCompletey = livestreamEnabled || isOnFilePage || isMobile;
+  const isMenuClosedCompletely = menuCanCloseCompletey && !sidebarOpen;
+
+  const showMicroMenu = !sidebarOpen && !(isOnFilePage || isMobile);
+  const showPushMenu = sidebarOpen && !(isOnFilePage || isMobile);
+
+  const showSubscriptionSection = menuCanCloseCompletey && isPersonalized && subscriptions && subscriptions.length > 0;
   const showTagSection = sidebarOpen && isPersonalized && followedTags && followedTags.length;
 
   let displayedSubscriptions = subscriptions;
@@ -389,16 +394,16 @@ function SideNavigation(props: Props) {
   return (
     <div
       className={classnames('navigation__wrapper', {
-        'navigation__wrapper--micro': !sidebarOpen && !isOnFilePage,
+        'navigation__wrapper--micro': showMicroMenu,
         'navigation__wrapper--absolute': isAbsolute,
       })}
     >
       <nav
         aria-label={'Sidebar'}
         className={classnames('navigation', {
-          'navigation--micro': !sidebarOpen && !(isOnFilePage || isMobile),
-          'navigation--push': sidebarOpen && !(isOnFilePage || isMobile),
-          'navigation-file-page-and-mobile': !sidebarOpen && (isOnFilePage || isMobile),
+          'navigation--micro': showMicroMenu,
+          'navigation--push': showPushMenu,
+          'navigation-file-page-and-mobile': isMenuClosedCompletely,
         })}
       >
         <div className="navigation-inner-container">
@@ -409,7 +414,7 @@ function SideNavigation(props: Props) {
 
           <ul
             className={classnames('navigation-links', {
-              'navigation-links--micro': !sidebarOpen && !(isOnFilePage || isMobile),
+              'navigation-links--micro': showMicroMenu,
               'navigation-links--absolute': isAbsolute && sidebarOpen,
             })}
           >
@@ -420,7 +425,7 @@ function SideNavigation(props: Props) {
 
           <ul
             className={classnames('navigation-links', {
-              'navigation-links--micro': !sidebarOpen && !(isOnFilePage || isMobile),
+              'navigation-links--micro': showMicroMenu,
               'navigation-links--absolute': isAbsolute && sidebarOpen,
             })}
           >
@@ -443,7 +448,7 @@ function SideNavigation(props: Props) {
           {!isAuthenticated && sidebarOpen && unAuthNudge}
         </div>
 
-        {(sidebarOpen || isOnFilePage || isMobile) && helpLinks}
+        {menuCanCloseCompletey && helpLinks}
       </nav>
       <div
         className={classnames('navigation__overlay', {
