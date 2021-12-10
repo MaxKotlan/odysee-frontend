@@ -144,9 +144,17 @@ function Page(props: Props) {
             {children}
 
             {!isMobile && rightSide && <div className="main__right-side">{rightSide}</div>}
+
+            {/* @if TARGET='web' */}
+            {!noFooter && !isOnFilePage && (
+              <React.Suspense fallback={null}>
+                <Footer />
+              </React.Suspense>
+            )}
+            {/* @endif */}
           </main>
           {/* @if TARGET='web' */}
-          {!noFooter && (
+          {!noFooter && isOnFilePage && (
             <React.Suspense fallback={null}>
               <Footer />
             </React.Suspense>
