@@ -224,10 +224,13 @@ function SideNavigation(props: Props) {
   const menuCanCloseCompletey = livestreamEnabled || isOnFilePage || isMobile;
   const hideMenuFromView = menuCanCloseCompletey && !sidebarOpen;
 
+  const shouldRenderLargeMenuPushorAbsolute = menuCanCloseCompletey || sidebarOpen;
+
   const showMicroMenu = !sidebarOpen && !menuCanCloseCompletey;
   const showPushMenu = sidebarOpen && !menuCanCloseCompletey;
 
-  const showSubscriptionSection = menuCanCloseCompletey && isPersonalized && subscriptions && subscriptions.length > 0;
+  const showSubscriptionSection =
+    shouldRenderLargeMenuPushorAbsolute && isPersonalized && subscriptions && subscriptions.length > 0;
   const showTagSection = sidebarOpen && isPersonalized && followedTags && followedTags.length;
 
   let displayedSubscriptions = subscriptions;
@@ -415,7 +418,7 @@ function SideNavigation(props: Props) {
           <ul
             className={classnames('navigation-links', {
               'navigation-links--micro': showMicroMenu,
-              'navigation-links--absolute': isAbsolute && sidebarOpen,
+              'navigation-links--absolute': shouldRenderLargeMenuPushorAbsolute,
             })}
           >
             {getLink(HOME)}
@@ -426,7 +429,7 @@ function SideNavigation(props: Props) {
           <ul
             className={classnames('navigation-links', {
               'navigation-links--micro': showMicroMenu,
-              'navigation-links--absolute': isAbsolute && sidebarOpen,
+              'navigation-links--absolute': shouldRenderLargeMenuPushorAbsolute,
             })}
           >
             {EXTRA_SIDEBAR_LINKS && (
@@ -448,7 +451,7 @@ function SideNavigation(props: Props) {
           {!isAuthenticated && sidebarOpen && unAuthNudge}
         </div>
 
-        {menuCanCloseCompletey && helpLinks}
+        {shouldRenderLargeMenuPushorAbsolute && helpLinks}
       </nav>
       <div
         className={classnames('navigation__overlay', {
