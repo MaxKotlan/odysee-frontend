@@ -99,8 +99,11 @@ function Page(props: Props) {
     if (isOnFilePage) {
       setSidebarOpen(false);
     }
+    if (settingsPage) {
+      setSidebarOpen(true);
+    }
     // TODO: make sure setState callback for usePersistedState uses useCallback to it doesn't cause effect to re-run
-  }, [isOnFilePage]);
+  }, [isOnFilePage, settingsPage]);
 
   return (
     <Fragment>
@@ -127,6 +130,7 @@ function Page(props: Props) {
             'sidebar--pusher--open': sidebarOpen && !(filePage || livestream),
             'sidebar--pusher--open--fullscreen': sidebarOpen && fullWidthPage && !(filePage || livestream),
             'sidebar--pusher--filepage': filePage || livestream,
+            'sidebar--has-micro-menu': fullWidthPage,
           })}
         >
           <main
