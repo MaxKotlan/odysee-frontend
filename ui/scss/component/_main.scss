@@ -79,6 +79,10 @@
   margin-right: auto;
   margin-left: auto;
 
+  @media (max-width: $breakpoint-medium) and (min-width: $breakpoint-small) {
+    margin: 0 var(--spacing-l);
+  }
+
   @media (max-width: $breakpoint-medium) {
     width: 100%;
   }
