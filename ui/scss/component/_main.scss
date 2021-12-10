@@ -66,26 +66,20 @@
 
 .sidebar--pusher--open {
   @media (min-width: $breakpoint-medium) {
-    transform: translateX(calc(var(--side-nav-width) - var(--spacing-m))) scaleX(0.95);
-    //transform: ;
-    //width: calc(100% - (var(--side-nav-width)) - 2 * var(--spacing-l));
+    transform: translateX(calc(var(--side-nav-width) - var(--spacing-m))) scaleX(0.94);
   }
 }
 
 .main {
   position: absolute;
-  width: calc(100% - var(--spacing-l));
+  width: calc(100%);
   max-width: var(--page-max-width);
   z-index: 0;
   animation-timing-function: var(--resizing-animation-function);
   transition: transform var(--resizing-animation-timing);
-
-  //margin-right: auto;
-  //margin-left: auto;
   transform-origin: center;
   transform: translateX(-50%);
   left: 50%;
-  //right: 50%;
 
   @media (max-width: $breakpoint-medium) {
     width: 100%;
