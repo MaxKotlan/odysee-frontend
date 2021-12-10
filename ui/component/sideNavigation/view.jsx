@@ -222,10 +222,10 @@ function SideNavigation(props: Props) {
   const isMobile = useIsMobile();
 
   const menuCanCloseCompletey = livestreamEnabled || isOnFilePage || isMobile;
-  const isMenuClosedCompletely = menuCanCloseCompletey && !sidebarOpen;
+  const hideMenuFromView = menuCanCloseCompletey && !sidebarOpen;
 
-  const showMicroMenu = !sidebarOpen && !(isOnFilePage || isMobile);
-  const showPushMenu = sidebarOpen && !(isOnFilePage || isMobile);
+  const showMicroMenu = !sidebarOpen && !menuCanCloseCompletey;
+  const showPushMenu = sidebarOpen && !menuCanCloseCompletey;
 
   const showSubscriptionSection = menuCanCloseCompletey && isPersonalized && subscriptions && subscriptions.length > 0;
   const showTagSection = sidebarOpen && isPersonalized && followedTags && followedTags.length;
@@ -403,7 +403,7 @@ function SideNavigation(props: Props) {
         className={classnames('navigation', {
           'navigation--micro': showMicroMenu,
           'navigation--push': showPushMenu,
-          'navigation-file-page-and-mobile': isMenuClosedCompletely,
+          'navigation-file-page-and-mobile': hideMenuFromView,
         })}
       >
         <div className="navigation-inner-container">
