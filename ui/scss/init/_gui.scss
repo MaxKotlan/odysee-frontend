@@ -34,12 +34,17 @@ body {
   scrollbar-color: var(--color-scrollbar-thumb-bg) var(--color-scrollbar-track-bg);
 }
 
+body::-webkit-scrollbar {
+  width: 12px;
+  height: 6px;
+}
+
 body *::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
-body *::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: var(--color-scrollbar-track-bg);
 }
 
@@ -47,6 +52,11 @@ body *::-webkit-scrollbar-thumb {
   // Don't set 'border-radius' because Firefox's 'scrollbar-xx'
   // standard currently doesn't support it. Stick with square
   // scrollbar for all browsers.
+  background-color: var(--color-scrollbar-thumb-bg);
+  border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb {
   background-color: var(--color-scrollbar-thumb-bg);
   border-radius: 4px;
 }
