@@ -117,5 +117,6 @@
 @media (max-width: $breakpoint-small) {
   :root {
     --font-body: 0.8rem;
+    --body-scrollbar-width: 0px;
   }
 }
