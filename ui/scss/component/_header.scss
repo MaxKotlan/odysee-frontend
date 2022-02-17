@@ -103,7 +103,6 @@
 
   .header__navigation {
     padding: var(--spacing-xs);
-    margin-right: var(--body-scrollbar-width);
   }
 
   .header__navigationItem--logo {
@@ -138,6 +137,7 @@
   height: var(--header-height);
   padding: var(--spacing-s) var(--spacing-m);
   flex-wrap: nowrap;
+  margin-right: var(--body-scrollbar-width);
 
   .wunderbar__wrapper {
     .wunderbar__input {
