@@ -250,6 +250,7 @@ function SideNavigation(props: Props) {
 
   const showMicroMenu = !sidebarOpen && !menuCanCloseCompletely;
   const showPushMenu = sidebarOpen && !menuCanCloseCompletely;
+  const showOverlay = isAbsolute && sidebarOpen;
 
   const showSubscriptionSection = shouldRenderLargeMenu && isPersonalized && subscriptions && subscriptions.length > 0;
   const showTagSection = sidebarOpen && isPersonalized && followedTags && followedTags.length;
@@ -361,6 +362,12 @@ function SideNavigation(props: Props) {
     }
     return null;
   }
+
+  React.useEffect(() => {
+    if (document.body !== null) {
+      document.body.style.overflowY = showOverlay ? 'hidden' : '';
+    }
+  }, [showOverlay]);
 
   React.useEffect(() => {
     if (purchaseSuccess) {
@@ -501,7 +508,7 @@ function SideNavigation(props: Props) {
       </nav>
       <div
         className={classnames('navigation__overlay', {
-          'navigation__overlay--active': isAbsolute && sidebarOpen,
+          'navigation__overlay--active': showOverlay,
         })}
         onClick={() => setSidebarOpen(false)}
       />
